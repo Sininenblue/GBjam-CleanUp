@@ -7,20 +7,17 @@ onready var tiles = $TileMap
 func _ready():
 	randomize()
 	_generate_level()
+	
+	#spawn player in the thing
 
 
 func _generate_level():
-	var walker = Walker.new(Vector2(15, 7), borders)
+	var walker = Walker.new(Vector2(15, 13), borders)
 	
-	var map = walker.walk(350)
+	var map = walker.walk(150)
 	walker.queue_free()
 	
 	for location in map:
 		tiles.set_cellv(location, -1)
 	
 	tiles.update_bitmask_region(borders.position, borders.end)
-
-
-func _process(delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		get_tree().reload_current_scene()
