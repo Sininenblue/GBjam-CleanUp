@@ -14,25 +14,30 @@ var targets = []
 onready var weapon = $Weapon
 onready var anim = $AnimationTree.get("parameters/playback")
 
+
 func _physics_process(delta):
 	_handle_animation()
 	_targeting()
 	
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("Shoot"):
 		anim.travel("Attack")
+	
 	
 	input.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	
+	
 	velocity.x = lerp(velocity.x, input.x * speed, speed_weight)
 	velocity.y = lerp(velocity.y, input.y * speed, speed_weight)
 	velocity = move_and_slide(velocity)
+
 
 func _handle_animation():
 	if input != Vector2.ZERO:
 		anim.travel("Run")
 	else:
 		anim.travel("Idle")
+
 
 func _targeting():
 	targets.sort_custom(self, "sort_closest")
@@ -47,12 +52,12 @@ func sort_closest(a, b):
 		return true
 	return false
 
-
 func _shoot():
+	$Camera.add_trauma(.08)
+	
 	var bullet = BULLET.instance()
 	bullet.start($Weapon/Muzzle.global_transform)
 	get_parent().add_child(bullet)
-
 
 func _on_Detection_body_entered(body):
 	targets.append(body)
@@ -63,6 +68,7 @@ func _on_Detection_body_exited(body):
 
 func _on_Hurtbox_area_entered(area):
 	health -= 1
+	$Camera.add_trauma(.15)
 	
 	if health <= 0:
 		#kill effect
