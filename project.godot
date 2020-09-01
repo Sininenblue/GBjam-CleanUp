@@ -21,6 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="GBjam CleanUp"
+run/main_scene="res://Worlds/Forest Spawn.tscn"
 config/icon="res://icon.png"
 
 [display]
@@ -54,6 +55,16 @@ texture={
 "stream": false,
 "svg/scale": 1.0
 }
+
+[layer_names]
+
+2d_physics/layer_1="Player "
+2d_physics/layer_2="Enemies"
+2d_physics/layer_3="Environment"
+2d_physics/layer_4="P hitbox"
+2d_physics/layer_5="P hurtbox"
+2d_physics/layer_6="E hitbox"
+2d_physics/layer_7="E hurtbox"
 
 [rendering]
 

@@ -1,35 +1,34 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Assets/Characters/Player.png" type="Texture" id=1]
-[ext_resource path="res://Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Weapons/Sword.png" type="Texture" id=3]
-[ext_resource path="res://Combat/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Characters/Goblin.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Weapons/Spear.png" type="Texture" id=2]
+[ext_resource path="res://Combat/Hurtbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Enemies/Goblin/Goblin.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 2.0
 height = 2.0
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 3.5
-height = 6.0
+radius = 6.0
+height = 8.0
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 88.0511
+radius = 79.9062
 
 [sub_resource type="Animation" id=4]
 resource_name = "Attack"
-length = 0.4
 tracks/0/type = "value"
-tracks/0/path = NodePath("Weapon/Sword:offset")
+tracks/0/path = NodePath("Weapon/Spear:offset")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 15, 0 ), Vector2( 5, 0 ), Vector2( 4, 0 ), Vector2( 16, 0 ), Vector2( 15, 0 ) ]
+"values": [ Vector2( 15, 0 ), Vector2( 7, 0 ), Vector2( 6, 0 ), Vector2( 5, 0 ), Vector2( 5, 0 ), Vector2( 16, 0 ), Vector2( 15, 0 ) ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -38,7 +37,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
+"times": PoolRealArray( 0.6 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -60,7 +59,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2 ]
+"values": [ 2, 0, 1 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -80,53 +79,19 @@ tracks/0/keys = {
 "values": [ 3, 4, 5, 6 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
-animation = "Attack"
+[sub_resource type="AnimationNodeStateMachine" id=7]
 
-[sub_resource type="AnimationNodeAnimation" id=8]
-animation = "Idle"
+[sub_resource type="AnimationNodeStateMachinePlayback" id=8]
 
-[sub_resource type="AnimationNodeAnimation" id=9]
-animation = "Run"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=13]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachine" id=16]
-states/Attack/node = SubResource( 7 )
-states/Attack/position = Vector2( 247, 112 )
-states/Idle/node = SubResource( 8 )
-states/Idle/position = Vector2( 424, 60 )
-states/Run/node = SubResource( 9 )
-states/Run/position = Vector2( 424, 157 )
-transitions = [ "Idle", "Run", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Run", "Attack", SubResource( 12 ), "Attack", "Run", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ) ]
-start_node = "Idle"
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=17]
-
-[node name="Player" type="KinematicBody2D"]
+[node name="Goblin" type="KinematicBody2D"]
+collision_layer = 2
 collision_mask = 7
-script = ExtResource( 2 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
+script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 hframes = 7
+frame = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6 )
@@ -138,25 +103,27 @@ shape = SubResource( 1 )
 [node name="Muzzle" type="Position2D" parent="Weapon"]
 position = Vector2( 16, 0 )
 
-[node name="Sword" type="Sprite" parent="Weapon"]
-texture = ExtResource( 3 )
+[node name="Spear" type="Sprite" parent="Weapon"]
+texture = ExtResource( 2 )
 offset = Vector2( 15, 0 )
 
-[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
-collision_layer = 16
-collision_mask = 32
+[node name="Hurtbox" parent="." instance=ExtResource( 3 )]
+collision_layer = 64
+collision_mask = 8
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2( 0, 1 )
 shape = SubResource( 2 )
 
 [node name="Detection" type="Area2D" parent="."]
-modulate = Color( 1, 0, 0, 0.266667 )
+modulate = Color( 1, 0, 0, 0.278431 )
 collision_layer = 0
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
 shape = SubResource( 3 )
+
+[node name="StateTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 4 )
@@ -164,10 +131,10 @@ anims/Idle = SubResource( 5 )
 anims/Run = SubResource( 6 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 16 )
+tree_root = SubResource( 7 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 17 )
+parameters/playback = SubResource( 8 )
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Detection" to="." method="_on_Detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_Detection_body_exited"]

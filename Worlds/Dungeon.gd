@@ -1,5 +1,7 @@
 extends Node2D
 
+var GOBLIN = preload("res://Enemies/Goblin/Goblin.tscn")
+
 var borders = Rect2(1, 1, 30, 14 )
 
 onready var tiles = $TileMap
