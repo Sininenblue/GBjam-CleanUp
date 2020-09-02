@@ -1,5 +1,7 @@
 extends Node2D
 
+var PORTAL = preload("res://Worlds/LevelPortal.tscn")
+var do_once = false
 var PLAYER = preload("res://Player/Player.tscn")
 var GOBLIN = preload("res://Enemies/Goblin/Goblin.tscn")
 
@@ -24,7 +26,9 @@ func _process(delta):
 		portal_position = enemies[0].position
 	
 	if enemies.size() == 0:
-		get_parent()._finish_level()
+		if do_once == false:
+			_spawn_level_portal()
+			do_once = true
 
 
 
@@ -46,16 +50,18 @@ func _generate_level():
 		tiles.set_cellv(location, 5)
 	tiles.update_bitmask_region(borders.position, borders.end)
 
-#func _spawn_level_portal():
-#	var portal = preload("res://Worlds/LevelPortal.tscn").instance()
-#	portal.position = portal_position	
-#	get_parent().add_child(portal)
+
+func _spawn_level_portal():
+	var portal = PORTAL.instance()
+	portal.position = portal_position
+	get_parent().add_child(portal)
 
 
 func spawn_player(location):
 	var player = PLAYER.instance()
 	player.position = location
 	add_child(player)
+
 
 func spawn_goblin(location):
 	var goblin = GOBLIN.instance()

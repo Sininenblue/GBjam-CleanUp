@@ -11,8 +11,6 @@ func _ready():
 	_spawn_dungeon(current_max + 5)
 
 
-
-
 func _process(delta):
 	$UI/Label.text = str(kills)
 
