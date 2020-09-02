@@ -528,7 +528,7 @@ limit_right = 430
 limit_bottom = 175
 
 [node name="Sprite" parent="YSort/Player" index="1"]
-frame = 2
+frame = 0
 
 [node name="AnimationTree" parent="YSort/Player" index="7"]
 parameters/playback = SubResource( 1 )

@@ -19,7 +19,9 @@ func _ready():
 
 
 func _process(delta):
-	$UI/Label.text = str(current_enemies - enemies.size())
+	if enemies.size() == 0:
+		get_parent()._finish_level()
+
 
 
 func _generate_level():
@@ -33,12 +35,12 @@ func _generate_level():
 	#enemy spawns
 	for location in map:
 		steps_since_spawn += 1
-		if randf() <= 0.25 and steps_since_spawn >= 20 and current_enemies < max_enemies:
+		if randf() <= 0.10 and steps_since_spawn >= 20 and current_enemies < max_enemies:
 			spawn_goblin(location * 16)
 	
 	#set cells
 	for location in map:
-		tiles.set_cellv(location, -1)
+		tiles.set_cellv(location, 5)
 	tiles.update_bitmask_region(borders.position, borders.end)
 
 
