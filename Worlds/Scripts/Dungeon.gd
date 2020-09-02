@@ -24,7 +24,7 @@ func _process(delta):
 		portal_position = enemies[0].position
 	
 	if enemies.size() == 0:
-		_spawn_level_portal()
+		get_parent()._finish_level()
 
 
 
@@ -46,10 +46,10 @@ func _generate_level():
 		tiles.set_cellv(location, 5)
 	tiles.update_bitmask_region(borders.position, borders.end)
 
-func _spawn_level_portal():
-	var portal = preload("res://Worlds/LevelPortal.tscn").instance()
-	portal.position = portal_position	
-	get_parent().add_child(portal)
+#func _spawn_level_portal():
+#	var portal = preload("res://Worlds/LevelPortal.tscn").instance()
+#	portal.position = portal_position	
+#	get_parent().add_child(portal)
 
 
 func spawn_player(location):
