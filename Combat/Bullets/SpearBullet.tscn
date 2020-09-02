@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Combat/Hitbox.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Weapons/Spear Bullet.png" type="Texture" id=2]
 [ext_resource path="res://Combat/Bullets/Bullet.gd" type="Script" id=3]
+[ext_resource path="res://Combat/Bullets/Floor.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6, 1 )
@@ -20,7 +21,9 @@ collision_mask = 20
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 position = Vector2( 7, -0.5 )
 shape = SubResource( 1 )
+
+[node name="Floor" parent="." instance=ExtResource( 4 )]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
-[connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]
+[connection signal="body_entered" from="Floor" to="." method="_on_Floor_body_entered"]
 
 [editable path="Hitbox"]

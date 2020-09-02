@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/UI/Heart Under.png" type="Texture" id=3]
+[ext_resource path="res://Assets/UI/Heart.png" type="Texture" id=4]
+
+[node name="Player UI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="TextureProgress" parent="."]
+margin_left = 5.0
+margin_top = 4.0
+margin_right = 15.0
+margin_bottom = 13.0
+max_value = 5.0
+value = 5.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
