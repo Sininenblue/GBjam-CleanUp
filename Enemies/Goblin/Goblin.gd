@@ -102,7 +102,9 @@ func _on_Hurtbox_area_entered(area):
 		#kill effect
 		alive = false
 		if "Dungeon" in get_parent().name:
+			
 			get_parent().get_parent()._update_enemy_kills()
+			
 			get_parent().enemies.erase(self)
 
 

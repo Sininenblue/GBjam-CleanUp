@@ -8,6 +8,7 @@ var current_enemies = 0
 var steps_since_spawn = 0
 
 var enemies = []
+var portal_position = Vector2.ZERO
 
 var borders = Rect2(1, 1, 30, 14 )
 
@@ -19,14 +20,16 @@ func _ready():
 
 
 func _process(delta):
+	if enemies.size() == 1:
+		portal_position = enemies[0].position
+	
 	if enemies.size() == 0:
-		get_parent()._finish_level()
+		_spawn_level_portal()
 
 
 
 func _generate_level():
 	var walker = Walker.new(Vector2(15, 13), borders)
-	
 	var map = walker.walk(150)
 	walker.queue_free()
 	
@@ -35,13 +38,18 @@ func _generate_level():
 	#enemy spawns
 	for location in map:
 		steps_since_spawn += 1
-		if randf() <= 0.10 and steps_since_spawn >= 20 and current_enemies < max_enemies:
+		if randf() <= 0.05 and steps_since_spawn >= 20 and current_enemies < max_enemies:
 			spawn_goblin(location * 16)
 	
 	#set cells
 	for location in map:
 		tiles.set_cellv(location, 5)
 	tiles.update_bitmask_region(borders.position, borders.end)
+
+func _spawn_level_portal():
+	var portal = preload("res://Worlds/LevelPortal.tscn").instance()
+	portal.position = portal_position	
+	get_parent().add_child(portal)
 
 
 func spawn_player(location):

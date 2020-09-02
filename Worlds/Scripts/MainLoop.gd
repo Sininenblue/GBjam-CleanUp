@@ -21,10 +21,13 @@ func _update_enemy_kills():
 
 
 func _finish_level():
-	get_child(1).call_deferred("queue_free")
+	var children = get_children()
+	for child in children:
+		if "Dungeon" in child.name:
+			call_deferred("queue_free")
 	
 	current_max += 1
-	_spawn_dungeon(current_max + 5, 2)
+	call_deferred("_spawn_dungeon", current_max + 5, 2)
 
 
 func _spawn_dungeon(max_enemies, enemy_types):

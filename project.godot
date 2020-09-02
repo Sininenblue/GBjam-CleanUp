@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Walker",
 "language": "GDScript",
-"path": "res://Worlds/Walker.gd"
+"path": "res://Worlds/Scripts/Walker.gd"
 } ]
 _global_script_class_icons={
 "Walker": ""
