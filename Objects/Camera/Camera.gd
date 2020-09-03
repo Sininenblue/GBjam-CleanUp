@@ -24,6 +24,7 @@ func _process(delta):
 		trauma = max(trauma - decay * delta, 0)
 		shake()
 
+
 func shake():
 	var amount = pow(trauma, trauma_power)
 	rotation = max_roll * amount * rand_range(-1, 1)

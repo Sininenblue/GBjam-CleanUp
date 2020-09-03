@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 #var PARTICLES = preload("res://Particles/SwordParticles.tscn")
-var BULLET = preload("res://Combat/Bullets/SwordBullet.tscn")
+#var BULLET = preload("res://Combat/Bullets/SwordBullet.tscn")
 
 export(int) var max_health = 5
 var health = max_health
@@ -67,6 +67,8 @@ func _dash_state():
 
 
 func _handle_animation():
+	$Sprite.flip_h = abs(weapon.rotation_degrees) > 90
+	
 	if input != Vector2.ZERO:
 		anim.travel("Run")
 	else:
@@ -89,10 +91,10 @@ func sort_closest(a, b):
 
 func _shoot():
 	$Camera.add_trauma(.1)
-	
-	var bullet = BULLET.instance()
-	bullet.start($Weapon/Muzzle.global_transform)
-	get_parent().add_child(bullet)
+#
+#	var bullet = BULLET.instance()
+#	bullet.start($Weapon/Muzzle.global_transform)
+#	get_parent().add_child(bullet)
 
 func _on_Detection_body_entered(body):
 	targets.append(body)
@@ -102,8 +104,12 @@ func _on_Detection_body_exited(body):
 
 
 func _on_Hurtbox_area_entered(area):
-	health -= 1
-	$Camera.add_trauma(.15)
+	if "Hammer" in area.name: 
+		health -= 2
+		$Camera.add_trauma(.2)
+	else:
+		health -= 1
+		$Camera.add_trauma(.15)
 	anim.travel("Hit")
 	
 	$"CanvasLayer/Player UI/Health".max_value = max_health

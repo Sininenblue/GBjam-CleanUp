@@ -21,7 +21,6 @@ func _init(starting_position, new_borders):
 
 
 func walk(steps):
-	
 	create_room(position)
 	
 	for step in steps:
@@ -47,7 +46,6 @@ func step():
 
 
 func change_direction():
-	
 	create_room(position)
 	
 	steps_since_turn = 0
