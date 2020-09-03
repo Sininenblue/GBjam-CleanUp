@@ -9,7 +9,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-Play = "res://Worlds/Dungeon.tscn"
+Play = "res://Worlds/MainLoop.tscn"
 
 [node name="Button" type="Button" parent="."]
 margin_left = 98.0

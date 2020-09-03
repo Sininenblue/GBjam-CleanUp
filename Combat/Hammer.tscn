@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Combat/Bullet.gd" type="Script" id=1]
-[ext_resource path="res://Combat/Hitbox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Combat/Box/Hitbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Combat/Floor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Weapons/Hammer Bullet.png" type="Texture" id=4]
 

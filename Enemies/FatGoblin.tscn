@@ -1,13 +1,18 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Enemies/Detection.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Weapons/Hammer.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Characters/FatGoblin.png" type="Texture" id=3]
 [ext_resource path="res://Enemies/EnemyScript.gd" type="Script" id=4]
 [ext_resource path="res://Combat/Hammer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Combat/Box/Hurtbox.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 2.0
+height = 6.0
+
+[sub_resource type="CapsuleShape2D" id=28]
+radius = 7.0
 height = 6.0
 
 [sub_resource type="Animation" id=2]
@@ -54,31 +59,31 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "Death"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.101, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 5, 6, 0, 6, 6 ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.1 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "_dead"
 } ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9, 10, 11, 12, 13 ]
 }
 
 [sub_resource type="Animation" id=20]
@@ -184,9 +189,11 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+
 [sub_resource type="AnimationNodeStateMachine" id=18]
 states/Attack/node = SubResource( 6 )
-states/Attack/position = Vector2( 623, 154 )
+states/Attack/position = Vector2( 203, 177 )
 states/Death/node = SubResource( 7 )
 states/Death/position = Vector2( 263, 42 )
 states/Hit/node = SubResource( 21 )
@@ -195,7 +202,7 @@ states/Idle/node = SubResource( 8 )
 states/Idle/position = Vector2( 439, 57 )
 states/Run/node = SubResource( 9 )
 states/Run/position = Vector2( 401, 215 )
-transitions = [ "Run", "Death", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Idle", "Run", SubResource( 12 ), "Idle", "Death", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Run", "Attack", SubResource( 16 ), "Attack", "Run", SubResource( 17 ), "Idle", "Hit", SubResource( 22 ), "Attack", "Hit", SubResource( 23 ), "Run", "Hit", SubResource( 24 ), "Hit", "Idle", SubResource( 25 ), "Hit", "Attack", SubResource( 26 ), "Hit", "Run", SubResource( 27 ) ]
+transitions = [ "Run", "Death", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Idle", "Run", SubResource( 12 ), "Idle", "Death", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Run", "Attack", SubResource( 16 ), "Attack", "Run", SubResource( 17 ), "Idle", "Hit", SubResource( 22 ), "Attack", "Hit", SubResource( 23 ), "Run", "Hit", SubResource( 24 ), "Hit", "Idle", SubResource( 25 ), "Hit", "Attack", SubResource( 26 ), "Hit", "Run", SubResource( 27 ), "Attack", "Death", SubResource( 29 ) ]
 start_node = "Idle"
 end_node = "Death"
 
@@ -205,13 +212,13 @@ end_node = "Death"
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 4 )
+damage = 2
 rotating = true
 BULLET = ExtResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )
 hframes = 15
-frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1, 6 )
@@ -226,6 +233,13 @@ position = Vector2( 18, 0 )
 [node name="Hammer" type="Sprite" parent="Weapon"]
 texture = ExtResource( 2 )
 offset = Vector2( 18, 0 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 6 )]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource( 28 )
 
 [node name="Detection" parent="." instance=ExtResource( 1 )]
 
@@ -248,5 +262,8 @@ one_shot = true
 [node name="StateTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Detection" to="." method="_on_Detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_Detection_body_exited"]
+
+[editable path="Hurtbox"]

@@ -1,11 +1,12 @@
 extends KinematicBody2D
 
+export(int) var damage = 1
 export var rotating = false
 
 export(PackedScene) var BULLET
 
 export(int) var max_health = 5
-var health = max_health
+var health
 var alive = true
 
 export(int) var speed = 3
@@ -29,38 +30,47 @@ onready var anim = $AnimationTree.get("parameters/playback")
 
 
 func _ready():
+	health = max_health
+	
 	randomize()
 	speed *= 16
 	wander_target = _get_wander_target()
 
 
 func _physics_process(delta):
+	$Sprite.flip_h = abs(weapon.rotation_degrees) > 90
 	_targeting()
 	
-	match state:
-		IDLE:
-			velocity = velocity.move_toward(Vector2.ZERO, .5)
-			
-			if stimer.time_left == 0:
-				state = _random_state([WANDER, ATTACK])
-		WANDER:
-			velocity = velocity.move_toward(wander_target * speed,.5)
-			if wtimer.time_left == 0:
-				wander_target = _get_wander_target()
-			
-			if stimer.time_left == 0:
-				state = _random_state([IDLE, ATTACK])
-		ATTACK:
-			if target == null:
-				state = _random_state([WANDER])
-			else:
+	if alive:
+		match state:
+			IDLE:
+				anim.travel("Idle")
 				
-				_shoot()
+				velocity = velocity.move_toward(Vector2.ZERO, .5)
 				
-				if stimer.time_left == 0: #do this when animation finishes instead
+				if stimer.time_left == 0:
+					state = _random_state([WANDER, ATTACK])
+			WANDER:
+				anim.travel("Run")
+				
+				velocity = velocity.move_toward(wander_target * speed,.5)
+				if wtimer.time_left == 0:
+					wander_target = _get_wander_target()
+				
+				if stimer.time_left == 0:
 					state = _random_state([IDLE, ATTACK])
-	
-	velocity = move_and_slide(velocity)
+			ATTACK:
+				if target == null:
+					state = _random_state([WANDER])
+				else:
+					
+					anim.travel("Attack")
+					
+					if stimer.time_left == 0: #do this when animation finishes instead
+						state = _random_state([IDLE, ATTACK])
+		
+		velocity = velocity.move_toward(Vector2.ZERO, .2)
+		velocity = move_and_slide(velocity)
 
 
 func _random_state(list):
@@ -84,15 +94,12 @@ func _shoot():
 	var bullet = BULLET.instance()
 	bullet.start($Weapon/Muzzle.global_transform)
 	bullet.rotating = rotating
+	bullet.damage = damage
 	
 	get_parent().add_child(bullet)
 
 
-#func _dead():
-#	velocity = Vector2.ZERO
-#	$Hurtbox/CollisionShape2D.set_deferred("disabled", true)
-#	$CollisionShape2D.set_deferred("disabled", true)
-#	set_physics_process(false)
+
 
 
 func _on_Detection_body_entered(body):
@@ -100,3 +107,23 @@ func _on_Detection_body_entered(body):
 
 func _on_Detection_body_exited(body):
 	target = null
+
+
+func _on_Hurtbox_area_entered(area):
+	health -= area.damage
+	anim.travel("Hit")
+	
+	if health <= 0:
+		alive = false
+		anim.travel("Death")
+
+
+func _dead():
+	get_parent().get_parent().enemy_amount -= 1
+	get_parent().get_parent().enemies.erase(self)
+	
+	velocity = Vector2.ZERO
+	$Weapon.visible = false
+	$Hurtbox/CollisionShape2D.set_deferred("disabled", true)
+	$CollisionShape2D.set_deferred("disabled", true)
+	set_physics_process(false)

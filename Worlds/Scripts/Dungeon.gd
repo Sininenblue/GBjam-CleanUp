@@ -6,10 +6,15 @@ var CAMERA = preload("res://Objects/Camera/Camera.tscn")
 var FATGOBLIN = preload("res://Enemies/FatGoblin.tscn")
 var GOBLIN = preload("res://Enemies/Goblin.tscn")
 
+var PORTAL = preload("res://Worlds/Portal.tscn")
+var portal_location = Vector2.ZERO
+
+
 export(int) var max_enemies = 5
 var current_enemies = 0
 var steps_since_spawn = 0
-var enemies = [] setget set_enemies
+var enemies = []
+var enemy_amount setget set_enemies
 
 var borders = Rect2(1, 1, 30, 14 )
 
@@ -20,14 +25,17 @@ func _ready():
 	randomize()
 	_generate_level()
 
-
 func set_enemies(new_value):
-	enemies = new_value
+	if enemy_amount != null and enemy_amount > new_value:
+		get_parent().kills += 1
 	
-	if enemies.size() == 1:
-		pass
-	elif enemies.size() == 0:
-		pass
+	enemy_amount = new_value
+	
+	if enemy_amount == 0:
+		portal_location = enemies[0].position
+		var portal = PORTAL.instance()
+		portal.position = portal_location
+		get_parent().add_child(portal)
 
 
 func _generate_level():
@@ -47,15 +55,15 @@ func _generate_level():
 			else:
 				spawn_fat_goblin(location)
 		
+	
+	self.enemy_amount = enemies.size()
 	tiles.update_bitmask_region(borders.position, borders.end)
-	tiles.update_dirty_quadrants()
 
 
 func spawn_player(location):
 	var player = PLAYER.instance()
 	player.position = location * 16
 	Main.add_child(player)
-
 
 func spawn_goblin(location):
 	var goblin = GOBLIN.instance()
@@ -74,8 +82,3 @@ func spawn_fat_goblin(location):
 	enemies.append(fatgoblin)
 	current_enemies += 1
 	steps_since_spawn = 0
-
-#func _spawn_level_portal():
-#	var portal = PORTAL.instance()
-#	portal.position = portal_position
-#	get_parent().add_child(portal)

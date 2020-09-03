@@ -1,6 +1,7 @@
 extends Node2D
 
 export var rotating = false
+export(int) var damage setget _set_damage
 
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
@@ -9,6 +10,8 @@ onready var ground = $Floor
 
 export var speed = 16 * 5
 
+func _set_damage(new_value):
+	$Hitbox.damage = new_value
 
 func start(_transform):
 	global_transform = _transform
