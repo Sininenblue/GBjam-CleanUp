@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Enemies/Detection.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Weapons/Hammer.png" type="Texture" id=2]
@@ -13,44 +13,43 @@ height = 6.0
 [sub_resource type="Animation" id=2]
 resource_name = "Attack"
 length = 2.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Weapon/Hammer:offset")
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.8, 0.9, 1, 1.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 18, 0 ), Vector2( 5, 0 ), Vector2( 4, 0 ), Vector2( 4, 0 ), Vector2( 18, 0 ), Vector2( 20, 5 ), Vector2( 18, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Weapon/Hammer:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5, 0.9, 1, 1.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, -125.2, -150.0, 0.0, 15.0, 0.0 ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.9 ),
+"times": PoolRealArray( 1.1 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "_shoot"
 } ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Weapon/Hammer:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.9, 1.1, 1.2, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 18, 0 ), Vector2( 5, 0 ), Vector2( 5, 0 ), Vector2( 20, 0 ), Vector2( 22, 0 ), Vector2( 18, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Weapon/Hammer:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5, 0.9, 1.1, 1.2, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -11.0, -180.0, -180.0, 0.0, 7.4, 0.0 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -80,6 +79,22 @@ tracks/1/keys = {
 "args": [  ],
 "method": "_dead"
 } ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "Hit"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 14 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -122,6 +137,9 @@ animation = "Attack"
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Death"
 
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "Hit"
+
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Idle"
 
@@ -148,16 +166,36 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+switch_mode = 2
+auto_advance = true
+
 [sub_resource type="AnimationNodeStateMachine" id=18]
 states/Attack/node = SubResource( 6 )
 states/Attack/position = Vector2( 623, 154 )
 states/Death/node = SubResource( 7 )
 states/Death/position = Vector2( 263, 42 )
+states/Hit/node = SubResource( 21 )
+states/Hit/position = Vector2( 665, 57 )
 states/Idle/node = SubResource( 8 )
-states/Idle/position = Vector2( 486, 57 )
+states/Idle/position = Vector2( 439, 57 )
 states/Run/node = SubResource( 9 )
 states/Run/position = Vector2( 401, 215 )
-transitions = [ "Run", "Death", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Idle", "Run", SubResource( 12 ), "Idle", "Death", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Run", "Attack", SubResource( 16 ), "Attack", "Run", SubResource( 17 ) ]
+transitions = [ "Run", "Death", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Idle", "Run", SubResource( 12 ), "Idle", "Death", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Run", "Attack", SubResource( 16 ), "Attack", "Run", SubResource( 17 ), "Idle", "Hit", SubResource( 22 ), "Attack", "Hit", SubResource( 23 ), "Run", "Hit", SubResource( 24 ), "Hit", "Idle", SubResource( 25 ), "Hit", "Attack", SubResource( 26 ), "Hit", "Run", SubResource( 27 ) ]
 start_node = "Idle"
 end_node = "Death"
 
@@ -172,8 +210,8 @@ BULLET = ExtResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )
-hframes = 7
-frame = 1
+hframes = 15
+frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1, 6 )
@@ -194,6 +232,7 @@ offset = Vector2( 18, 0 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 2 )
 anims/Death = SubResource( 3 )
+anims/Hit = SubResource( 20 )
 anims/Idle = SubResource( 4 )
 anims/Run = SubResource( 5 )
 

@@ -25,6 +25,8 @@ enum{
 onready var wtimer = $WanderTimer
 onready var stimer = $StateTimer
 onready var weapon = $Weapon
+onready var anim = $AnimationTree.get("parameters/playback")
+
 
 func _ready():
 	randomize()
