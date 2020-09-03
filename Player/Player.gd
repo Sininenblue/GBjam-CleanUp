@@ -104,6 +104,7 @@ func _on_Detection_body_exited(body):
 func _on_Hurtbox_area_entered(area):
 	health -= 1
 	$Camera.add_trauma(.15)
+	anim.travel("Hit")
 	
 	$"CanvasLayer/Player UI/Health".max_value = max_health
 	$"CanvasLayer/Player UI/Health".value = health

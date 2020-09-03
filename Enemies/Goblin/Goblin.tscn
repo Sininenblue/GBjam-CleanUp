@@ -46,7 +46,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=5]
 resource_name = "Death"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -87,8 +87,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Idle"
+[sub_resource type="Animation" id=6]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -104,8 +103,7 @@ tracks/0/keys = {
 "values": [ 2, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Run"
+[sub_resource type="Animation" id=7]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -121,27 +119,21 @@ tracks/0/keys = {
 "values": [ 3, 4, 5, 6 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Attack"
 
-[sub_resource type="AnimationNodeAnimation" id=19]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Death"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Run"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=12]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
-switch_mode = 2
-auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 
@@ -149,27 +141,33 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
-
-[sub_resource type="AnimationNodeStateMachine" id=16]
-states/Attack/node = SubResource( 7 )
+[sub_resource type="AnimationNodeStateMachine" id=21]
+states/Attack/node = SubResource( 8 )
 states/Attack/position = Vector2( 293, 37 )
-states/Death/node = SubResource( 19 )
+states/Death/node = SubResource( 9 )
 states/Death/position = Vector2( 17, 68 )
-states/Idle/node = SubResource( 8 )
+states/Idle/node = SubResource( 10 )
 states/Idle/position = Vector2( 253, 282 )
-states/Run/node = SubResource( 9 )
+states/Run/node = SubResource( 11 )
 states/Run/position = Vector2( 180, 119 )
-transitions = [ "Idle", "Run", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Idle", "Attack", SubResource( 12 ), "Attack", "Idle", SubResource( 13 ), "Run", "Attack", SubResource( 14 ), "Attack", "Run", SubResource( 15 ), "Attack", "Death", SubResource( 20 ), "Idle", "Death", SubResource( 21 ), "Run", "Death", SubResource( 22 ) ]
+transitions = [ "Idle", "Run", SubResource( 12 ), "Run", "Idle", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Run", "Attack", SubResource( 16 ), "Attack", "Run", SubResource( 17 ), "Attack", "Death", SubResource( 18 ), "Idle", "Death", SubResource( 19 ), "Run", "Death", SubResource( 20 ) ]
 start_node = "Idle"
 end_node = "Death"
 graph_offset = Vector2( -175, -28 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=17]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
 
 [node name="Goblin" type="KinematicBody2D"]
 collision_layer = 2
@@ -178,8 +176,8 @@ script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-hframes = 14
-frame = 5
+hframes = 15
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6 )
@@ -218,15 +216,15 @@ one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 4 )
-anims/Death = SubResource( 18 )
-anims/Idle = SubResource( 5 )
-anims/Run = SubResource( 6 )
+anims/Death = SubResource( 5 )
+anims/Idle = SubResource( 6 )
+anims/Run = SubResource( 7 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 16 )
+tree_root = SubResource( 21 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 17 )
+parameters/playback = SubResource( 22 )
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="body_entered" from="Detection" to="." method="_on_Detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_Detection_body_exited"]

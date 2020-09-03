@@ -2,6 +2,7 @@ extends Node2D
 
 var PORTAL = preload("res://Worlds/LevelPortal.tscn")
 var do_once = false
+
 var PLAYER = preload("res://Player/Player.tscn")
 var GOBLIN = preload("res://Enemies/Goblin/Goblin.tscn")
 
@@ -25,7 +26,10 @@ func _process(delta):
 	if enemies.size() == 1:
 		portal_position = enemies[0].position
 	
+	print(enemies.size())
+	
 	if enemies.size() == 0:
+		#have a delay
 		if do_once == false:
 			_spawn_level_portal()
 			do_once = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Assets/Characters/Player.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -48,7 +48,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=5]
 resource_name = "Dead"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -63,8 +63,23 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10, 11, 12, 13 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Idle"
+[sub_resource type="Animation" id=23]
+resource_name = "Hit"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 14 ]
+}
+
+[sub_resource type="Animation" id=6]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -80,8 +95,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Run"
+[sub_resource type="Animation" id=7]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -97,27 +111,24 @@ tracks/0/keys = {
 "values": [ 3, 4, 5, 6 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Attack"
 
-[sub_resource type="AnimationNodeAnimation" id=19]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Dead"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "Hit"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Run"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=12]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
-switch_mode = 2
-auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 
@@ -125,26 +136,52 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+switch_mode = 2
+auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachine" id=16]
-states/Attack/node = SubResource( 7 )
-states/Attack/position = Vector2( 185, 231 )
-states/Dead/node = SubResource( 19 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+switch_mode = 1
+auto_advance = true
+priority = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+
+[sub_resource type="AnimationNodeStateMachine" id=21]
+states/Attack/node = SubResource( 8 )
+states/Attack/position = Vector2( -105, 230 )
+states/Dead/node = SubResource( 9 )
 states/Dead/position = Vector2( 128, 34 )
-states/Idle/node = SubResource( 8 )
-states/Idle/position = Vector2( 450, 52 )
-states/Run/node = SubResource( 9 )
-states/Run/position = Vector2( 376, 205 )
-transitions = [ "Idle", "Run", SubResource( 10 ), "Run", "Idle", SubResource( 11 ), "Run", "Attack", SubResource( 12 ), "Attack", "Run", SubResource( 13 ), "Idle", "Attack", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Idle", "Dead", SubResource( 20 ), "Run", "Dead", SubResource( 21 ), "Attack", "Dead", SubResource( 22 ) ]
+states/Hit/node = SubResource( 24 )
+states/Hit/position = Vector2( 380, 415 )
+states/Idle/node = SubResource( 10 )
+states/Idle/position = Vector2( 349, 28 )
+states/Run/node = SubResource( 11 )
+states/Run/position = Vector2( 260, 230 )
+transitions = [ "Idle", "Run", SubResource( 12 ), "Run", "Idle", SubResource( 13 ), "Run", "Attack", SubResource( 14 ), "Attack", "Run", SubResource( 15 ), "Idle", "Attack", SubResource( 16 ), "Attack", "Idle", SubResource( 17 ), "Idle", "Dead", SubResource( 18 ), "Run", "Dead", SubResource( 19 ), "Attack", "Dead", SubResource( 20 ), "Idle", "Hit", SubResource( 25 ), "Hit", "Idle", SubResource( 26 ), "Run", "Hit", SubResource( 27 ), "Hit", "Run", SubResource( 28 ), "Attack", "Hit", SubResource( 29 ), "Hit", "Attack", SubResource( 30 ) ]
 start_node = "Idle"
 end_node = "Dead"
+graph_offset = Vector2( -97, 6 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=17]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 7
@@ -155,7 +192,7 @@ target = NodePath("..")
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-hframes = 14
+hframes = 15
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -190,15 +227,16 @@ shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 4 )
-anims/Dead = SubResource( 18 )
-anims/Idle = SubResource( 5 )
-anims/Run = SubResource( 6 )
+anims/Dead = SubResource( 5 )
+anims/Hit = SubResource( 23 )
+anims/Idle = SubResource( 6 )
+anims/Run = SubResource( 7 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 16 )
+tree_root = SubResource( 21 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 17 )
+parameters/playback = SubResource( 22 )
 
 [node name="Ghost" type="Timer" parent="."]
 wait_time = 0.1

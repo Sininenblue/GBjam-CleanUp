@@ -24,6 +24,8 @@ func _finish_level():
 	for child in children:
 		if "Dungeon" in child.name:
 			current_dungeon = child
+		if "LevelPortal" in child.name:
+			child.call_deferred("queue_free")
 	
 	current_dungeon.call_deferred("queue_free")
 	current_max += 1

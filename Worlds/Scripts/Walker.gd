@@ -25,7 +25,7 @@ func walk(steps):
 	create_room(position)
 	
 	for step in steps:
-		if randf() <= 0.25 and steps_since_turn >= 6:
+		if randf() <= 0.25 and steps_since_turn >= 4:
 			change_direction()
 		
 		if step():
