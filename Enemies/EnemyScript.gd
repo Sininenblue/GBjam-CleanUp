@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export var rotating = false
 
-var BULLET = preload("res://Combat/Hammer.tscn")
+export(PackedScene) var BULLET
 
 export(int) var max_health = 5
 var health = max_health
@@ -15,7 +15,7 @@ var target
 
 var wander_target = Vector2.ZERO
 
-var state = WANDER
+var state = IDLE
 enum{
 	IDLE,
 	WANDER,

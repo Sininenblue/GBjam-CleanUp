@@ -1,18 +1,14 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://Combat/Hurtbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Combat/Spear.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Enemies/Detection.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Enemies/To Delete/Goblin/Goblin.gd" type="Script" id=3]
-[ext_resource path="res://Assets/Weapons/Spear.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Characters/Goblin.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Weapons/Spear.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Characters/Goblin.png" type="Texture" id=4]
+[ext_resource path="res://Enemies/EnemyScript.gd" type="Script" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 2.0
 height = 2.0
-
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 6.0
-height = 8.0
 
 [sub_resource type="Animation" id=3]
 resource_name = "Attack"
@@ -170,12 +166,14 @@ graph_offset = Vector2( -175, -28 )
 [node name="Goblin" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 7
-script = ExtResource( 3 )
+script = ExtResource( 5 )
+BULLET = ExtResource( 1 )
+max_health = 3
+speed = 5
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 hframes = 15
-frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6 )
@@ -185,27 +183,13 @@ shape = SubResource( 1 )
 [node name="Weapon" type="Position2D" parent="."]
 
 [node name="Muzzle" type="Position2D" parent="Weapon"]
-position = Vector2( 16, 0 )
+position = Vector2( 19, 0 )
 
 [node name="Spear" type="Sprite" parent="Weapon"]
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 offset = Vector2( 5.00001, 0 )
 
-[node name="Hurtbox" parent="." instance=ExtResource( 1 )]
-collision_layer = 64
-collision_mask = 8
-
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 2 )
-
 [node name="Detection" parent="." instance=ExtResource( 2 )]
-
-[node name="StateTimer" type="Timer" parent="."]
-one_shot = true
-autostart = true
-
-[node name="AttackTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 3 )
@@ -218,8 +202,12 @@ tree_root = SubResource( 20 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 21 )
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+
+[node name="WanderTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StateTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
 [connection signal="body_entered" from="Detection" to="." method="_on_Detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_Detection_body_exited"]
-
-[editable path="Hurtbox"]

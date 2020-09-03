@@ -4,6 +4,7 @@ var PLAYER = preload("res://Player/Player.tscn")
 var CAMERA = preload("res://Objects/Camera/Camera.tscn")
 
 var FATGOBLIN = preload("res://Enemies/FatGoblin.tscn")
+var GOBLIN = preload("res://Enemies/Goblin.tscn")
 
 export(int) var max_enemies = 5
 var current_enemies = 0
@@ -35,14 +36,16 @@ func _generate_level():
 	walker.queue_free()
 	
 	spawn_player(map[0])
-	spawn_fat_goblin(map[6])
 	
 	for location in map:
 		tiles.set_cellv(location, 5)
 		
 		steps_since_spawn += 1
 		if randf() <= 0.05 and steps_since_spawn >= 20 and current_enemies < max_enemies:
-			pass #spawn enemeis here
+			if randf() <= .5:
+				spawn_goblin(location)
+			else:
+				spawn_fat_goblin(location)
 		
 	tiles.update_bitmask_region(borders.position, borders.end)
 	tiles.update_dirty_quadrants()
@@ -54,14 +57,14 @@ func spawn_player(location):
 	Main.add_child(player)
 
 
-#func spawn_goblin(location):
-#	var goblin = GOBLIN.instance()
-#	goblin.position = location
-#	add_child(goblin)
-#
-#	enemies.append(goblin)
-#	current_enemies += 1
-#	steps_since_spawn = 0
+func spawn_goblin(location):
+	var goblin = GOBLIN.instance()
+	goblin.position = location * 16
+	Main.add_child(goblin)
+	
+	enemies.append(goblin)
+	current_enemies += 1
+	steps_since_spawn = 0
 
 func spawn_fat_goblin(location):
 	var fatgoblin = FATGOBLIN.instance()
