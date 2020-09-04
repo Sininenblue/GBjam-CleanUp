@@ -81,6 +81,7 @@ func _handle_animation():
 		anim.travel("Hit")
 
 
+
 func _targeting():
 	targets.sort_custom(self, "sort_closest")
 	
@@ -113,16 +114,17 @@ func _on_Detection_body_exited(body):
 
 func _on_Hurtbox_area_entered(area):
 	health -= area.damage
-	$Camera.add_trauma(area.damage * .1)
+	$Camera.add_trauma(area.damage * .15)
 	
 	hit = true
+	$Hit.play()
 	$HitTimer.start(.1)
 	
 	$"CanvasLayer/Player UI/Health".max_value = max_health
 	$"CanvasLayer/Player UI/Health".value = health
 	
 	if health <= 0:
-		#kill effect
+		$Dead.play()
 		anim.travel("Dead")
 		set_physics_process(false)
 
@@ -151,3 +153,7 @@ func _spawn_particles():
 	falldown.position = position
 	falldown.emitting = true
 	get_parent().add_child(falldown)
+
+
+func _shake_screen(amount: float):
+	$Camera.add_trauma(amount)

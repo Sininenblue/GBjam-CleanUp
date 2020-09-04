@@ -86,7 +86,9 @@ func _handle_animation():
 					anim.travel("Run")
 				ATTACK:
 					if target != null:
-						anim.travel("Attack")
+						if $AttackTimer.time_left == 0:
+							anim.travel("Attack")
+							$AttackTimer.start(.5)
 
 
 func _random_state(list):

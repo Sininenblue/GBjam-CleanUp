@@ -1,10 +1,11 @@
 extends Navigation2D
 
 var PLAYER = preload("res://Player/Player.tscn")
-var CAMERA = preload("res://Objects/Camera/Camera.tscn")
+var playerinstance
 
 var FATGOBLIN = preload("res://Enemies/FatGoblin.tscn")
 var GOBLIN = preload("res://Enemies/Goblin.tscn")
+var SMALLGOBLIN = preload("res://Enemies/SmallGoblin.tscn")
 
 var PORTAL = preload("res://Worlds/Portal.tscn")
 var portal_location = Vector2.ZERO
@@ -33,6 +34,15 @@ func set_enemies(new_value):
 	
 	if enemy_amount == 0:
 		portal_location = enemies[0].position
+		yield(get_tree().create_timer(.5), "timeout")
+		playerinstance._shake_screen(.2)
+		
+		
+		var falldown = preload("res://Particles/FallDown.tscn").instance()
+		falldown.position = portal_location
+		falldown.emitting = true
+		get_parent().add_child(falldown)
+		
 		var portal = PORTAL.instance()
 		portal.position = portal_location
 		get_parent().add_child(portal)
@@ -40,7 +50,7 @@ func set_enemies(new_value):
 
 func _generate_level():
 	var walker = Walker.new(Vector2(15, 13), borders)
-	var map = walker.walk(150)
+	var map = walker.walk(200)
 	walker.queue_free()
 	
 	spawn_player(map[0])
@@ -53,7 +63,10 @@ func _generate_level():
 			if randf() <= .5:
 				spawn_goblin(location)
 			else:
-				spawn_fat_goblin(location)
+				if randf() <= .5:
+					spawn_fat_goblin(location)
+				else:
+					spawn_small_goblin(location)
 		
 	
 	self.enemy_amount = enemies.size()
@@ -64,6 +77,8 @@ func spawn_player(location):
 	var player = PLAYER.instance()
 	player.position = location * 16
 	Main.add_child(player)
+	
+	playerinstance = player
 
 func spawn_goblin(location):
 	var goblin = GOBLIN.instance()
@@ -80,5 +95,14 @@ func spawn_fat_goblin(location):
 	Main.add_child(fatgoblin)
 
 	enemies.append(fatgoblin)
+	current_enemies += 1
+	steps_since_spawn = 0
+
+func spawn_small_goblin(location):
+	var smallgoblin = SMALLGOBLIN.instance()
+	smallgoblin.position = location * 16
+	Main.add_child(smallgoblin)
+
+	enemies.append(smallgoblin)
 	current_enemies += 1
 	steps_since_spawn = 0

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/Label.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/Main Menu.gd" type="Script" id=2]
+[ext_resource path="res://Assets/UI/PlayButtonHovered.png" type="Texture" id=3]
+[ext_resource path="res://Assets/UI/PlayButton.png" type="Texture" id=4]
 
 [node name="DeathScreen" type="Control"]
 anchor_right = 1.0
@@ -13,12 +15,25 @@ __meta__ = {
 Play = "res://Worlds/MainLoop.tscn"
 
 [node name="Label" parent="." instance=ExtResource( 1 )]
-text = "haha you ded"
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -72.0
+margin_right = 20.0
+margin_bottom = 13.0
+text = "YOU DIED"
 
-[node name="Button" type="Button" parent="."]
-margin_left = 16.0
-margin_top = 63.0
-margin_right = 148.0
-margin_bottom = 83.0
-text = "try again dum dum"
+[node name="Button" type="TextureButton" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -17.0
+margin_top = -9.0
+margin_right = 17.0
+margin_bottom = 9.0
+texture_normal = ExtResource( 4 )
+texture_hover = ExtResource( 3 )
 [connection signal="button_down" from="Button" to="." method="_on_Button_button_down"]

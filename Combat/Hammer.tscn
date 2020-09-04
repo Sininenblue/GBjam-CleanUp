@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Combat/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://Combat/Box/Hitbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Combat/Floor.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Assets/Weapons/Hammer Bullet.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Weapons/Hammer.png" type="Texture" id=4]
+[ext_resource path="res://Combat/WallHit.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 3.0
@@ -26,6 +27,8 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="Floor" parent="." instance=ExtResource( 3 )]
+
+[node name="WallHit" parent="." instance=ExtResource( 5 )]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="body_entered" from="Floor" to="." method="_on_Floor_body_entered"]
 

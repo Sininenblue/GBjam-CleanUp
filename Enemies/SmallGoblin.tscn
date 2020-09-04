@@ -1,46 +1,64 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://Combat/Spear.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Enemies/Detection.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/Weapons/Spear.png" type="Texture" id=3]
-[ext_resource path="res://Assets/Characters/Goblin.png" type="Texture" id=4]
-[ext_resource path="res://Enemies/EnemyScript.gd" type="Script" id=5]
-[ext_resource path="res://Combat/Box/Hurtbox.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Player/Shadow.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Player/Shadow.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Characters/SmallGoblin.png" type="Texture" id=2]
+[ext_resource path="res://Enemies/Detection.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Combat/Box/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Weapons/Shuriken.png" type="Texture" id=5]
+[ext_resource path="res://Enemies/EnemyScript.gd" type="Script" id=6]
+[ext_resource path="res://Combat/Shuriken.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 2.0
-height = 2.0
+radius = 1.0
+height = 3.99999
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 6.0
-height = 8.0
+height = 4.0
 
 [sub_resource type="Animation" id=3]
 resource_name = "Attack"
-length = 1.5
+length = 0.7
 tracks/0/type = "value"
-tracks/0/path = NodePath("Weapon/Spear:offset")
+tracks/0/path = NodePath("Weapon/Sprite:offset")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.9, 1, 1.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 15, 0 ), Vector2( 7, 0 ), Vector2( 6, 0 ), Vector2( 5, 0 ), Vector2( 5, 0 ), Vector2( 16, 0 ), Vector2( 15, 0 ) ]
+"values": [ Vector2( 8, 0 ), Vector2( 0, 0 ), Vector2( -1, 0 ), Vector2( 16, 0 ), Vector2( 17, -6 ), Vector2( 8, 0 ) ]
 }
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
+tracks/1/type = "value"
+tracks/1/path = NodePath("Weapon/Sprite:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.9 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -15.0, -30.0, 0.0, 15.0, 0.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "_shoot"
+}, {
+"args": [  ],
+"method": "_shoot"
+}, {
 "args": [  ],
 "method": "_shoot"
 } ]
@@ -74,22 +92,9 @@ tracks/1/keys = {
 "method": "_dead"
 } ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Weapon:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
 
 [sub_resource type="Animation" id=5]
 resource_name = "Hit"
-length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -104,7 +109,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=6]
-length = 0.6
+length = 0.5
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -116,7 +121,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 2, 0, 1 ]
+"values": [ 0, 1, 2 ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -157,93 +162,79 @@ animation = "Run"
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
-switch_mode = 2
-auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
-switch_mode = 2
-auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=19]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=20]
+switch_mode = 2
+auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=21]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=23]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachine" id=28]
+[sub_resource type="AnimationNodeStateMachine" id=22]
 states/Attack/node = SubResource( 8 )
-states/Attack/position = Vector2( 293, 37 )
+states/Attack/position = Vector2( 325, 54 )
 states/Death/node = SubResource( 9 )
-states/Death/position = Vector2( -4, 78 )
+states/Death/position = Vector2( -13, 37 )
 states/Hit/node = SubResource( 10 )
-states/Hit/position = Vector2( 459, 172 )
+states/Hit/position = Vector2( 480, 112 )
 states/Idle/node = SubResource( 11 )
-states/Idle/position = Vector2( 253, 282 )
+states/Idle/position = Vector2( 257, 188 )
 states/Run/node = SubResource( 12 )
-states/Run/position = Vector2( 180, 119 )
-transitions = [ "Idle", "Run", SubResource( 13 ), "Run", "Idle", SubResource( 14 ), "Idle", "Attack", SubResource( 15 ), "Attack", "Idle", SubResource( 16 ), "Run", "Attack", SubResource( 17 ), "Attack", "Run", SubResource( 18 ), "Attack", "Death", SubResource( 19 ), "Idle", "Death", SubResource( 20 ), "Run", "Death", SubResource( 21 ), "Run", "Hit", SubResource( 22 ), "Attack", "Hit", SubResource( 23 ), "Idle", "Hit", SubResource( 24 ), "Hit", "Run", SubResource( 25 ), "Hit", "Attack", SubResource( 26 ), "Hit", "Idle", SubResource( 27 ) ]
+states/Run/position = Vector2( 112, 188 )
+transitions = [ "Run", "Idle", SubResource( 13 ), "Idle", "Run", SubResource( 14 ), "Run", "Death", SubResource( 15 ), "Idle", "Death", SubResource( 16 ), "Attack", "Death", SubResource( 17 ), "Run", "Attack", SubResource( 18 ), "Idle", "Attack", SubResource( 19 ), "Attack", "Idle", SubResource( 20 ), "Attack", "Run", SubResource( 21 ) ]
 start_node = "Idle"
 end_node = "Death"
-graph_offset = Vector2( -172, 13 )
+graph_offset = Vector2( -113, -19 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=23]
 
-[node name="Goblin" type="KinematicBody2D"]
+[node name="SmallGoblin" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 7
-script = ExtResource( 5 )
-bulletspeed = 9
-BULLET = ExtResource( 1 )
-max_health = 3
-speed = 5
+script = ExtResource( 6 )
+rotating = true
+bulletspeed = 7
+BULLET = ExtResource( 7 )
+max_health = 2
+speed = 6
 
-[node name="Shadow" parent="." instance=ExtResource( 7 )]
+[node name="Shadow" parent="." instance=ExtResource( 1 )]
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 4 )
+texture = ExtResource( 2 )
 hframes = 15
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 6 )
-rotation = 1.5708
+position = Vector2( 0, 7 )
+rotation = 1.57079
 shape = SubResource( 1 )
 
 [node name="Weapon" type="Position2D" parent="."]
+position = Vector2( 0, 2 )
+
+[node name="Sprite" type="Sprite" parent="Weapon"]
+texture = ExtResource( 5 )
+offset = Vector2( 8, 0 )
 
 [node name="Muzzle" type="Position2D" parent="Weapon"]
-position = Vector2( 19, 0 )
+position = Vector2( 18, 0 )
 
-[node name="Spear" type="Sprite" parent="Weapon"]
-texture = ExtResource( 3 )
-offset = Vector2( 15, 0 )
+[node name="Detection" parent="." instance=ExtResource( 3 )]
 
-[node name="Detection" parent="." instance=ExtResource( 2 )]
-
-[node name="Hurtbox" parent="." instance=ExtResource( 6 )]
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
 collision_layer = 64
 collision_mask = 8
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 0, 2 )
 shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -254,10 +245,10 @@ anims/Idle = SubResource( 6 )
 anims/Run = SubResource( 7 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 28 )
+tree_root = SubResource( 22 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 29 )
+parameters/playback = SubResource( 23 )
 
 [node name="WanderTimer" type="Timer" parent="."]
 one_shot = true

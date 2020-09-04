@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Spear Bullet.png-b4a37a091f6efbef756a06282b297679.stex"
+path="res://.import/PlayButtonHovered.png-422940aa46926784db4f4ab926e36035.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Weapons/Spear Bullet.png"
-dest_files=[ "res://.import/Spear Bullet.png-b4a37a091f6efbef756a06282b297679.stex" ]
+source_file="res://Assets/UI/PlayButtonHovered.png"
+dest_files=[ "res://.import/PlayButtonHovered.png-422940aa46926784db4f4ab926e36035.stex" ]
 
 [params]
 

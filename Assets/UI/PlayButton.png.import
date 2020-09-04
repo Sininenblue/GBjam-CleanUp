@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hammer Bullet.png-1763c11aa2e7d7128499fa6822166b79.stex"
+path="res://.import/PlayButton.png-8d0ca3e57e254de6c5db01e71c4be606.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Weapons/Hammer Bullet.png"
-dest_files=[ "res://.import/Hammer Bullet.png-1763c11aa2e7d7128499fa6822166b79.stex" ]
+source_file="res://Assets/UI/PlayButton.png"
+dest_files=[ "res://.import/PlayButton.png-8d0ca3e57e254de6c5db01e71c4be606.stex" ]
 
 [params]
 

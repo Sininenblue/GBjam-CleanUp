@@ -40,7 +40,12 @@ func _on_Hitbox_area_entered(area):
 
 
 func _on_Floor_body_entered(body):
+	$WallHit.play()
 	_spawn_impact()
+	
+	velocity = Vector2.ZERO
+	$Sprite.visible = false
+	yield($WallHit, "finished")
 	queue_free()
 
 
