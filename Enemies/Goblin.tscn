@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Combat/Spear.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Enemies/Detection.tscn" type="PackedScene" id=2]
@@ -6,12 +6,13 @@
 [ext_resource path="res://Assets/Characters/Goblin.png" type="Texture" id=4]
 [ext_resource path="res://Enemies/EnemyScript.gd" type="Script" id=5]
 [ext_resource path="res://Combat/Box/Hurtbox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Player/Shadow.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 2.0
 height = 2.0
 
-[sub_resource type="CapsuleShape2D" id=30]
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 6.0
 height = 8.0
 
@@ -86,7 +87,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=30]
 resource_name = "Hit"
 length = 0.1
 tracks/0/type = "value"
@@ -102,7 +103,7 @@ tracks/0/keys = {
 "values": [ 14 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=31]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -118,7 +119,7 @@ tracks/0/keys = {
 "values": [ 2, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=32]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -134,30 +135,24 @@ tracks/0/keys = {
 "values": [ 3, 4, 5, 6 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Attack"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Death"
 
-[sub_resource type="AnimationNodeAnimation" id=23]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Hit"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=12]
 animation = "Run"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
-switch_mode = 2
-auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
@@ -168,56 +163,66 @@ auto_advance = true
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
+switch_mode = 2
+auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=24]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=25]
+switch_mode = 2
+auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=26]
+switch_mode = 2
+auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=27]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=29]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachine" id=20]
-states/Attack/node = SubResource( 7 )
+[sub_resource type="AnimationNodeStateMachine" id=28]
+states/Attack/node = SubResource( 8 )
 states/Attack/position = Vector2( 293, 37 )
-states/Death/node = SubResource( 8 )
+states/Death/node = SubResource( 9 )
 states/Death/position = Vector2( -4, 78 )
-states/Hit/node = SubResource( 23 )
+states/Hit/node = SubResource( 10 )
 states/Hit/position = Vector2( 459, 172 )
-states/Idle/node = SubResource( 9 )
+states/Idle/node = SubResource( 11 )
 states/Idle/position = Vector2( 253, 282 )
-states/Run/node = SubResource( 10 )
+states/Run/node = SubResource( 12 )
 states/Run/position = Vector2( 180, 119 )
-transitions = [ "Idle", "Run", SubResource( 11 ), "Run", "Idle", SubResource( 12 ), "Idle", "Attack", SubResource( 13 ), "Attack", "Idle", SubResource( 14 ), "Run", "Attack", SubResource( 15 ), "Attack", "Run", SubResource( 16 ), "Attack", "Death", SubResource( 17 ), "Idle", "Death", SubResource( 18 ), "Run", "Death", SubResource( 19 ), "Run", "Hit", SubResource( 24 ), "Attack", "Hit", SubResource( 25 ), "Idle", "Hit", SubResource( 26 ), "Hit", "Run", SubResource( 27 ), "Hit", "Attack", SubResource( 28 ), "Hit", "Idle", SubResource( 29 ) ]
+transitions = [ "Idle", "Run", SubResource( 13 ), "Run", "Idle", SubResource( 14 ), "Idle", "Attack", SubResource( 15 ), "Attack", "Idle", SubResource( 16 ), "Run", "Attack", SubResource( 17 ), "Attack", "Run", SubResource( 18 ), "Attack", "Death", SubResource( 19 ), "Idle", "Death", SubResource( 20 ), "Run", "Death", SubResource( 21 ), "Run", "Hit", SubResource( 22 ), "Attack", "Hit", SubResource( 23 ), "Idle", "Hit", SubResource( 24 ), "Hit", "Run", SubResource( 25 ), "Hit", "Attack", SubResource( 26 ), "Hit", "Idle", SubResource( 27 ) ]
 start_node = "Idle"
 end_node = "Death"
 graph_offset = Vector2( -172, 13 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=21]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
 
 [node name="Goblin" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 5 )
+bulletspeed = 9
 BULLET = ExtResource( 1 )
 max_health = 3
 speed = 5
 
+[node name="Shadow" parent="." instance=ExtResource( 7 )]
+
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 4 )
 hframes = 15
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6 )
@@ -231,7 +236,7 @@ position = Vector2( 19, 0 )
 
 [node name="Spear" type="Sprite" parent="Weapon"]
 texture = ExtResource( 3 )
-offset = Vector2( 15, 0 )
+offset = Vector2( 5, 0 )
 
 [node name="Detection" parent="." instance=ExtResource( 2 )]
 
@@ -240,20 +245,20 @@ collision_layer = 64
 collision_mask = 8
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 30 )
+shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 3 )
 anims/Death = SubResource( 4 )
-anims/Hit = SubResource( 22 )
-anims/Idle = SubResource( 5 )
-anims/Run = SubResource( 6 )
+anims/Hit = SubResource( 30 )
+anims/Idle = SubResource( 31 )
+anims/Run = SubResource( 32 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 20 )
+tree_root = SubResource( 28 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 21 )
+parameters/playback = SubResource( 29 )
 
 [node name="WanderTimer" type="Timer" parent="."]
 one_shot = true
@@ -261,8 +266,12 @@ one_shot = true
 [node name="StateTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="HitTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="body_entered" from="Detection" to="." method="_on_Detection_body_entered"]
 [connection signal="body_exited" from="Detection" to="." method="_on_Detection_body_exited"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="timeout" from="HitTimer" to="." method="_on_HitTimer_timeout"]
 
 [editable path="Hurtbox"]

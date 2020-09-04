@@ -2,12 +2,15 @@ extends KinematicBody2D
 
 export(int) var damage = 1
 export var rotating = false
+export(int) var bulletspeed = 5
 
 export(PackedScene) var BULLET
 
 export(int) var max_health = 5
 var health
 var alive = true
+var hit = false
+
 
 export(int) var speed = 3
 var velocity = Vector2.ZERO
@@ -38,21 +41,17 @@ func _ready():
 
 
 func _physics_process(delta):
-	$Sprite.flip_h = abs(weapon.rotation_degrees) > 90
+	_handle_animation()
 	_targeting()
 	
 	if alive:
 		match state:
 			IDLE:
-				anim.travel("Idle")
-				
 				velocity = velocity.move_toward(Vector2.ZERO, .5)
 				
 				if stimer.time_left == 0:
 					state = _random_state([WANDER, ATTACK])
 			WANDER:
-				anim.travel("Run")
-				
 				velocity = velocity.move_toward(wander_target * speed,.5)
 				if wtimer.time_left == 0:
 					wander_target = _get_wander_target()
@@ -63,14 +62,31 @@ func _physics_process(delta):
 				if target == null:
 					state = _random_state([WANDER])
 				else:
-					
-					anim.travel("Attack")
-					
-					if stimer.time_left == 0: #do this when animation finishes instead
+					if stimer.time_left == 0:
 						state = _random_state([IDLE, ATTACK])
 		
 		velocity = velocity.move_toward(Vector2.ZERO, .2)
 		velocity = move_and_slide(velocity)
+
+
+func _handle_animation():
+	$Sprite.flip_h = abs(weapon.rotation_degrees) > 90
+	
+	
+	if alive == false:
+		anim.travel("Death")
+	else:
+		if hit == true:
+			$Sprite.frame = 14
+		else:
+			match state:
+				IDLE:
+					anim.travel("Idle")
+				WANDER:
+					anim.travel("Run")
+				ATTACK:
+					if target != null:
+						anim.travel("Attack")
 
 
 func _random_state(list):
@@ -91,8 +107,10 @@ func _targeting():
 
 
 func _shoot():
+	weapon.global_rotation += rand_range(-.15, .15)
+	
 	var bullet = BULLET.instance()
-	bullet.start($Weapon/Muzzle.global_transform)
+	bullet.start($Weapon/Muzzle.global_transform, bulletspeed)
 	bullet.rotating = rotating
 	bullet.damage = damage
 	
@@ -110,12 +128,15 @@ func _on_Detection_body_exited(body):
 
 
 func _on_Hurtbox_area_entered(area):
+	velocity = velocity.move_toward(-position.direction_to(area.position) * 5, .5)
+	
 	health -= area.damage
-	anim.travel("Hit")
+	
+	hit = true
+	$HitTimer.start(.1)
 	
 	if health <= 0:
 		alive = false
-		anim.travel("Death")
 
 
 func _dead():
@@ -127,3 +148,8 @@ func _dead():
 	$Hurtbox/CollisionShape2D.set_deferred("disabled", true)
 	$CollisionShape2D.set_deferred("disabled", true)
 	set_physics_process(false)
+
+
+func _on_HitTimer_timeout():
+	$Sprite.frame = 0
+	hit = false

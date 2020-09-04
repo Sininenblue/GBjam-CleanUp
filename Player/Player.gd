@@ -1,9 +1,13 @@
 extends KinematicBody2D
 
+var DEATHSCREEN = preload("res://UI/DeathScreen.tscn")
+
 var BULLET = preload("res://Combat/Bullet.tscn")
+export(int) var bulletspeed = 10
 
 export(int) var max_health = 5
 var health = max_health
+var hit = false
 
 var input = Vector2.ZERO
 var velocity = Vector2.ZERO
@@ -68,10 +72,13 @@ func _dash_state():
 func _handle_animation():
 	$Sprite.flip_h = abs(weapon.rotation_degrees) > 90
 	
-	if input != Vector2.ZERO:
-		anim.travel("Run")
+	if hit == false:
+		if input != Vector2.ZERO:
+			anim.travel("Run")
+		else:
+			anim.travel("Idle")
 	else:
-		anim.travel("Idle")
+		anim.travel("Hit")
 
 
 func _targeting():
@@ -90,11 +97,12 @@ func sort_closest(a, b):
 
 func _shoot():
 	$Camera.add_trauma(.1)
-
+	
 	var bullet = BULLET.instance()
-	bullet.start($Weapon/Muzzle.global_transform)
+	bullet.start($Weapon/Muzzle.global_transform, bulletspeed)
 	bullet.damage = 1
 	get_parent().add_child(bullet)
+
 
 func _on_Detection_body_entered(body):
 	targets.append(body)
@@ -106,7 +114,9 @@ func _on_Detection_body_exited(body):
 func _on_Hurtbox_area_entered(area):
 	health -= area.damage
 	$Camera.add_trauma(area.damage * .1)
-	anim.travel("Hit")
+	
+	hit = true
+	$HitTimer.start(.1)
 	
 	$"CanvasLayer/Player UI/Health".max_value = max_health
 	$"CanvasLayer/Player UI/Health".value = health
@@ -126,3 +136,18 @@ func _on_Timer_timeout():
 		ghost.hframes = $Sprite.hframes
 		ghost.frame = $Sprite.frame
 		ghost.flip_h = $Sprite.flip_h
+
+
+func _on_HitTimer_timeout():
+	hit = false
+
+
+func _summon_death_screen():
+	var deathscreen = DEATHSCREEN.instance()
+	$CanvasLayer.add_child(deathscreen)
+
+func _spawn_particles():
+	var falldown = preload("res://Particles/FallDown.tscn").instance()
+	falldown.position = position
+	falldown.emitting = true
+	get_parent().add_child(falldown)
