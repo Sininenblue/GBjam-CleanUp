@@ -13,6 +13,9 @@ func set_kills(new_value):
 	kills = new_value
 	$UI/Label.text = str(kills)
 
+func _play_transition():
+	$UI/Transition/AnimationPlayer.play("Transition")
+
 
 func _finish_level():
 	var children = get_children()
