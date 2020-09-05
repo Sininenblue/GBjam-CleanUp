@@ -3,6 +3,7 @@ extends Area2D
 
 func _ready():
 	$AnimatedSprite.play("default")
+	$Spawn.play()
 	
 
 

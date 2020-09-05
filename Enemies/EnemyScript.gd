@@ -136,6 +136,7 @@ func _on_Hurtbox_area_entered(area):
 	
 	hit = true
 	$HitTimer.start(.1)
+	$EnemyHurt.play()
 	
 	if health <= 0:
 		alive = false

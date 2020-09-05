@@ -3,13 +3,13 @@
 [ext_resource path="res://UI/Transition.shader" type="Shader" id=1]
 [ext_resource path="res://Assets/UI/Transition UI.png" type="Texture" id=2]
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 1 )
 shader_param/cutoff = 1.0
 shader_param/smooth_size = 0.0
 shader_param/mask = ExtResource( 2 )
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Transition"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:material:shader_param/cutoff")
@@ -39,7 +39,7 @@ tracks/1/keys = {
 }
 
 [node name="Transition" type="ColorRect"]
-material = SubResource( 2 )
+material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.176471, 0.105882, 0, 1 )
@@ -48,4 +48,4 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Transition = SubResource( 3 )
+anims/Transition = SubResource( 2 )

@@ -38,6 +38,7 @@ func _physics_process(delta):
 			
 			if Input.is_action_just_pressed("Ability") and $DashCooldown.time_left == 0:
 				$Camera.add_trauma(.1)
+				$Dash.play()
 				$DashCooldown.start()
 				state = DASH
 		DASH:
