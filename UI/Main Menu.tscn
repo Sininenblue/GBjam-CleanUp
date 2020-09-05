@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/Main Menu.gd" type="Script" id=1]
 [ext_resource path="res://Assets/UI/MainMenu.png" type="Texture" id=2]
 [ext_resource path="res://Assets/UI/PlayButton.png" type="Texture" id=3]
 [ext_resource path="res://Assets/UI/PlayButtonHovered.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Sfx/buttonpress1.wav" type="AudioStream" id=5]
 
 [node name="Main Menu" type="Control"]
 anchor_right = 1.0
@@ -32,4 +33,7 @@ texture_hover = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Press" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 [connection signal="button_down" from="Button" to="." method="_on_Button_button_down"]

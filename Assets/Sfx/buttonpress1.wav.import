@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/wall_hit.wav-abed06c3d92981ae7c4a511fc5cfe632.sample"
+path="res://.import/buttonpress1.wav-634778e6bb0ac3b65b45f81f77e16a33.sample"
 
 [deps]
 
-source_file="res://Assets/Sfx/wall_hit.wav"
-dest_files=[ "res://.import/wall_hit.wav-abed06c3d92981ae7c4a511fc5cfe632.sample" ]
+source_file="res://Assets/Sfx/buttonpress1.wav"
+dest_files=[ "res://.import/buttonpress1.wav-634778e6bb0ac3b65b45f81f77e16a33.sample" ]
 
 [params]
 
